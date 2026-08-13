@@ -1,0 +1,13 @@
+CREATE DATABASE loja;
+USE loja;
+
+CREATE TABLE vendas (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    produto VARCHAR(100) NOT NULL,
+    quantidade INT NOT NULL,
+    valor FLOAT NOT NULL
+);
+	
+select * from vendas;	
+
+	
