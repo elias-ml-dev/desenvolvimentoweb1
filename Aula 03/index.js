@@ -4,7 +4,7 @@ const readline = require("readline-sync")
 
 // Conexão com o MySQL
 const conexao = mysql.createConnection({
-    host:"localhost",
+    host:"127.0.0.1",
     user: "root",
     password: "root",
     database: "escola"    
@@ -26,10 +26,9 @@ function cadastrarAluno() {
         } else {
             console.log("Aluno cadastrado com sucesso!");
         }
-        // menu();
-    })
+         menu();
+    });  
 }
-cadastrarAluno();
 
 // Função para excluir aluno
 
@@ -48,6 +47,58 @@ function excluirAluno() {
         } else {
             console.log("Aluno excluído com sucesso!");
         }
-    })
+
+        menu();
+    });
 }
-excluirAluno();
+
+
+// Função para listar alunos
+function listarAlunos() {
+    const sql = "SELECT * FROM alunos";
+
+    conexao.query(sql, function (erro, alunos){
+        if (erro) {
+            console.log("Erro ao buscar alunos.");
+        } else {
+            console.log("\n--- ALUNOS ---");
+            alunos.forEach(function (aluno){
+                console.log(
+                    aluno.id + " - " +
+                    aluno.nome + " - " +
+                    aluno.email
+                );
+            });
+        }
+        menu();
+    });
+}
+
+// Menu principal
+function menu() {
+
+    console.log("\n===== MENU =====");
+    console.log("1 - Cadastrar aluno");
+    console.log("2 - Excluir aluno");
+    console.log("3 - Listar alunos");
+    console.log("0 - Sair");
+
+    const opcao = readline.questionInt("Escolha uma opcao: ");
+
+    if (opcao === 1) {
+        cadastrarAluno();
+    } else if (opcao === 2) {
+        excluirAluno();
+    } else if (opcao === 3){
+        listarAlunos();
+    } else if (opcao === 0) {
+        console.log("Programa encerrado");
+        conexao.end();
+    } else {
+        console.log("Opção invalida")
+        menu();
+    }
+}
+
+// Inicia o programa
+menu();
