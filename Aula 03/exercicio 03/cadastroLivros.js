@@ -1,0 +1,104 @@
+const mysql = require("mysql2");
+const readline = require("readline-sync")
+
+
+// Conexão com o MySQL
+const conexao = mysql.createConnection({
+    host:"localhost",
+    user: "root",
+    password: "root",
+    database: "biblioteca"    
+});
+
+//Função para cadastrar 
+function cadastrarLivro() {
+
+    const titulo = readline.question("Digite o titulo: ")
+    const autor = readline.question("Digite o nome do autor: ")
+
+    const insert = "INSERT INTO livro (titulo, autor) VALUES (?,?)";
+
+    conexao.query(insert,[titulo, autor], function (erro){
+
+        if (erro) {
+            console.log("Erro ao cadastrar.");
+            console.log(erro);
+        } else {
+            console.log("Livro cadastrado com sucesso!");
+        }
+         menu();
+    });  
+}
+
+// Função para excluir 
+
+function excluirLivro() {
+
+    const id = readline.questionInt("Digite o ID do LIVRO: ");
+
+    const deletar ="DELETE FROM livro WHERE id = ?";
+
+    conexao.query(deletar, [id], function (erro, resultado){
+
+        if (erro) {
+            console.log("Erro ao excluir o livro.");
+        } else if (resultado.affectedRows === 0) {
+            console.log("Livro não encontrado.");
+        } else {
+            console.log("Livro excluído com sucesso!");
+        }
+
+        menu();
+    });
+}
+
+
+// Função para listar 
+function listarLivro() {
+    const sql = "SELECT * FROM livro";
+
+    conexao.query(sql, function (erro, livro){
+        if (erro) {
+            console.log("Erro ao buscar livros.");
+        } else {
+            console.log("\n--- LIVROS ---");
+            livro.forEach(function (livro){
+                console.log(
+                    livro.id + " - " +
+                    livro.titulo + " - " +
+                    livro.autor + " - " 
+                );
+            });
+        }
+        menu();
+    });
+}
+
+// Menu principal
+function menu() {
+
+    console.log("\n===== LIVROS =====");
+    console.log("1 - Cadastrar livro");
+    console.log("2 - Listar livro");
+    console.log("3 - Excluir livro");
+    console.log("0 - Sair");
+
+    const opcao = readline.questionInt("Escolha uma opcao: ");
+
+    if (opcao === 1) {
+        cadastrarLivro();
+     } else if (opcao === 2){
+        listarLivro();
+    } else if (opcao === 3) {
+        excluirLivro();
+    } else if (opcao === 0) {
+        console.log("Programa encerrado");
+        conexao.end();
+    } else {
+        console.log("Opção invalida")
+        menu();
+    }
+}
+
+// Inicia o programa
+menu();
