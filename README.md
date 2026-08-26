@@ -16,7 +16,3 @@ O repositório reúne implementações de lógica em JavaScript, integração co
 * **[Node.js](https://nodejs.org/)** — Ambiente de execução JavaScript no back-end.
 * **[MySQL](https://www.mysql.com/)** — Sistema de gerenciamento de banco de dados relacional (SGBD).
 * **[readline-sync](https://www.npmjs.com/package/readline-sync)** — Biblioteca para captura de entradas interativas via terminal[cite: 3, 4].
-
----
-
-   git clone [https://github.com/elias-ml-dev/desenvolvimentoweb1.git](https://github.com/elias-ml-dev/desenvolvimentoweb1.git)
