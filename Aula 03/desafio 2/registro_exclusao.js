@@ -4,7 +4,7 @@ const readline = require("readline-sync")
 
 // Conexão com o MySQL
 const conexao = mysql.createConnection({
-    host:"127.0.0.1",
+    host:"localhost",
     user: "root",
     password: "root",
     database: "escola"    
@@ -57,10 +57,6 @@ function excluirAluno() {
             console.log("\nRegistro encontrado:");
             console.log("Nome:", alunos2[0].nome);
             console.log("Email:", alunos2[0].email);
-            console.log("Endereço:", alunos2[0].endereco);
-            console.log("Matrícula:", alunos2[0].matricula);
-            console.log("Curso:", alunos2[0].curso);
-            console.log("Série:", alunos2[0].serie);
 
             const confirmar = readline.question("Deseja excluir? (S/N): ");
 
