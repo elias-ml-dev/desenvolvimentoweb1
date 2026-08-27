@@ -31,6 +31,54 @@ function cadastrarProduto() {
     });  
 }
 
+// Função atualizar aluno
+
+function atualizarProduto(){
+     
+    // ID do aluno que será atualizado
+    const id = readline.questionInt("Digite o ID do produto que deseja atualizar: ");
+    
+    const sqlBusca = "SELECT * FROM produtos WHERE id = ?";
+
+    conexao.query(sqlBusca, [id], function (erro, produtos) {
+        if (erro) {
+            console.log("Erro ao buscar o produto.");
+            return menu();
+        }
+
+        if (produtos.length === 0) {
+            console.log("Produto não encontrado.");
+            return menu();
+        }
+        
+        const atual = produtos[0]
+        console.log(`\nAtualizando dados de: ${atual.nome}`);
+        console.log("(Pressione ENTER para manter o valor atual)\n");
+
+        const nome = readline.question("Digite o nome do produto: ");
+        const preco = readline.question("Digite o preco: ")
+        const quantidade = readline.question("Digite a quantidade: ") 
+
+        const update = `
+            UPDATE produtos
+            SET nome = ?, preco = ?, quantidade = ? 
+            WHERE id = ?
+        `;
+        conexao.query(update, [nome, preco, quantidade, id], function (erro, resultado) {
+        
+            if (erro) {
+                console.log("Erro ao atualizar o produto.");
+                console.log(erro);
+            } else if (resultado.affectedRows === 0) {
+                console.log("Produto não encontrado.");
+            } else {
+                console.log("Produto atualizado com sucesso!");
+            }
+        menu();
+        });
+    });
+}
+
 // Função para excluir 
 
 function excluirProduto() {
@@ -83,6 +131,7 @@ function menu() {
     console.log("1 - Cadastrar produto");
     console.log("2 - Listar produtos");
     console.log("3 - Excluir produtos");
+    console.log("4 - Atualizar produto");
     console.log("0 - Sair");
 
     const opcao = readline.questionInt("Escolha uma opcao: ");
@@ -93,7 +142,9 @@ function menu() {
         listarProduto();
     } else if (opcao === 3) {
         excluirProduto();
-    } else if (opcao === 0) {
+    }else if (opcao === 4){
+        atualizarProduto();
+    }else if (opcao === 0) {
         console.log("Programa encerrado");
         conexao.end();
     } else {
