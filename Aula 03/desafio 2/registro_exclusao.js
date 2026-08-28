@@ -34,6 +34,36 @@ function cadastrarAluno() {
     });  
 }
 
+// Função atualizar aluno
+function atualizarAluno() {
+    const id = readline.questionInt("Digite o ID do aluno que deseja atualizar: ");
+
+    console.log(`\nAtualizando dados `);
+
+    const nome = readline.question("Digite o nome do aluno: ");
+    const email = readline.question("Digite o email do aluno: ");
+    const endereco = readline.question("Digite o endereço: ")
+    const matricula = readline.question("Digite a matricula: ")
+    const curso = readline.question("Digite o nome do curso: ")
+    const serie = readline.question("Digite a serie: ")
+
+    const update = `
+        UPDATE alunos2
+        SET nome = ?, email = ?, endereco = ?, matricula = ?, curso = ?, serie = ?
+        WHERE id = ?
+    `;
+    conexao.query(update, [nome, email, endereco, matricula, curso, serie, id], function (erro, resultado) {
+
+        if(erro){
+            console.log("Erro ao atualizar o aluno.");
+            console.log(erro);
+        } else {
+            console.log("Aluno atualizado com sucesso!");
+        }
+        menu();
+    });
+}
+
 // Função para excluir aluno
 
 function excluirAluno() {
@@ -117,6 +147,7 @@ function menu() {
     console.log("1 - Cadastrar aluno");
     console.log("2 - Excluir aluno");
     console.log("3 - Listar alunos");
+    console.log("4 - Atualizar aluno");
     console.log("0 - Sair");
 
     const opcao = readline.questionInt("Escolha uma opcao: ");
@@ -127,6 +158,8 @@ function menu() {
         excluirAluno();
     } else if (opcao === 3){
         listarAlunos();
+    } else if (opcao === 4){
+        atualizarAluno();
     } else if (opcao === 0) {
         console.log("Programa encerrado");
         conexao.end();
