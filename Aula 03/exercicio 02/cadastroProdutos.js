@@ -31,33 +31,18 @@ function cadastrarProduto() {
     });  
 }
 
-// Função atualizar aluno
+// Função atualizar 
 
 function atualizarProduto(){
      
-    // ID do aluno que será atualizado
+    // ID que será atualizado
     const id = readline.questionInt("Digite o ID do produto que deseja atualizar: ");
-    
-    const sqlBusca = "SELECT * FROM produtos WHERE id = ?";
-
-    conexao.query(sqlBusca, [id], function (erro, produtos) {
-        if (erro) {
-            console.log("Erro ao buscar o produto.");
-            return menu();
-        }
-
-        if (produtos.length === 0) {
-            console.log("Produto não encontrado.");
-            return menu();
-        }
         
-        const atual = produtos[0]
-        console.log(`\nAtualizando dados de: ${atual.nome}`);
-        console.log("(Pressione ENTER para manter o valor atual)\n");
+        console.log(`\nAtualizando dados `);
 
         const nome = readline.question("Digite o nome do produto: ");
         const preco = readline.question("Digite o preco: ")
-        const quantidade = readline.question("Digite a quantidade: ") 
+        const quantidade = readline.question("Digite a quantidade: ")
 
         const update = `
             UPDATE produtos
@@ -76,8 +61,8 @@ function atualizarProduto(){
             }
         menu();
         });
-    });
 }
+
 
 // Função para excluir 
 

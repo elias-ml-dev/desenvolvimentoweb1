@@ -4,7 +4,7 @@ const readline = require("readline-sync")
 
 // Conexão com o MySQL
 const conexao = mysql.createConnection({
-    host:"127.0.0.1",
+    host:"localhost",
     user: "root",
     password: "root",
     database: "escola"    
@@ -38,25 +38,10 @@ function cadastrarAluno() {
 
 function atualizarAluno(){
      
-    // ID do aluno que será atualizado
+    // ID que será atualizado
     const id = readline.questionInt("Digite o ID do aluno que deseja atualizar: ");
-    
-    const sqlBusca = "SELECT * FROM alunos2 WHERE id = ?";
-
-    conexao.query(sqlBusca, [id], function (erro, alunos2) {
-        if (erro) {
-            console.log("Erro ao buscar o aluno.");
-            menu();
-        }
-
-        if (alunos2.length === 0) {
-            console.log("Aluno não encontrado.");
-            menu();
-        }
         
-        const atual = alunos2[0]
-        console.log(`\nAtualizando dados de: ${atual.nome}`);
-        console.log("(Pressione ENTER para manter o valor atual)\n");
+        console.log(`\nAtualizando dados `);
 
         const nome = readline.question("Digite o nome do aluno: ");
         const email = readline.question("Digite o email do aluno: ");
@@ -67,7 +52,7 @@ function atualizarAluno(){
 
         const update = `
             UPDATE alunos2
-            SET nome = ?, email = ?, endereco = ?, matricula = ?, curso = ?, serie = ?
+            SET nome = ?, email = ?, endereco = ?, matricula = ?, curso = ?, serie = ? 
             WHERE id = ?
         `;
         conexao.query(update, [nome, email, endereco, matricula, curso, serie, id], function (erro, resultado) {
@@ -82,30 +67,6 @@ function atualizarAluno(){
             }
         menu();
         });
-    });
-}
-
-
-// Função para excluir aluno
-
-function excluirAluno() {
-
-    const id = readline.questionInt("Digite o ID do aluno: ");
-
-    const deletar ="DELETE FROM alunos2 WHERE id = ?";
-
-    conexao.query(deletar, [id], function (erro, resultado){
-
-        if (erro) {
-            console.log("Erro ao excluir o aluno.");
-        } else if (resultado.affectedRows === 0) {
-            console.log("Aluno não encontrado.");
-        } else {
-            console.log("Aluno excluído com sucesso!");
-        }
-
-        menu();
-    });
 }
 
 

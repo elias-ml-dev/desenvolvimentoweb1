@@ -30,6 +30,36 @@ function cadastrarEvento() {
     });  
 }
 
+//Função atualizar
+function atualizarEvento(){
+     
+    // ID que será atualizado
+    const id = readline.questionInt("Digite o ID do evento que deseja atualizar: ");
+        
+        console.log(`\nAtualizando dados `);
+
+        const nome = readline.question("Digite o o nome do evento: ")
+        const data_evento = readline.question("Digite a data do evento: ")
+
+        const update = `
+            UPDATE eventos
+            SET nome = ?, data_evento = ? 
+            WHERE id = ?
+        `;
+        conexao.query(update, [nome, data_evento, id], function (erro, resultado) {
+        
+            if (erro) {
+                console.log("Erro ao atualizar o evento.");
+                console.log(erro);
+            } else if (resultado.affectedRows === 0) {
+                console.log("Evento não encontrado.");
+            } else {
+                console.log("Evento atualizado com sucesso!");
+            }
+        menu();
+        });
+}
+
 // Função para excluir 
 
 function excluirEvento() {
@@ -81,6 +111,7 @@ function menu() {
     console.log("1 - Cadastrar evento");
     console.log("2 - Listar eventos");
     console.log("3 - Excluir evento");
+    console.log("4 - Atualizar evento");
     console.log("0 - Sair");
 
     const opcao = readline.questionInt("Escolha uma opcao: ");
@@ -91,6 +122,8 @@ function menu() {
         listarEventos();
     } else if (opcao === 3) {
         excluirEvento();
+    } else if (opcao === 4) {
+        atualizarEvento();
     } else if (opcao === 0) {
         console.log("Programa encerrado");
         conexao.end();

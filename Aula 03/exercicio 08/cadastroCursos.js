@@ -30,6 +30,38 @@ function cadastrarCurso() {
     });  
 }
 
+
+//Função atualizar
+function atualizarCurso(){
+     
+    // ID que será atualizado
+    const id = readline.questionInt("Digite o ID do curso que deseja atualizar: ");
+        
+        console.log(`\nAtualizando dados `);
+
+        const nome = readline.question("Digite o nome do curso: ")
+        const carga_horaria = readline.question("Digite a carga horaria do curso: ")
+
+        const update = `
+            UPDATE cursos
+            SET nome = ?, carga_horaria = ? 
+            WHERE id = ?
+        `;
+        conexao.query(update, [nome, carga_horaria, id], function (erro, resultado) {
+        
+            if (erro) {
+                console.log("Erro ao atualizar o curso.");
+                console.log(erro);
+            } else if (resultado.affectedRows === 0) {
+                console.log("Curso não encontrado.");
+            } else {
+                console.log("Curso atualizado com sucesso!");
+            }
+        menu();
+        });
+}
+
+
 // Função para excluir 
 
 function excluirCurso() {
@@ -81,6 +113,7 @@ function menu() {
     console.log("1 - Cadastrar curso");
     console.log("2 - Listar cursos");
     console.log("3 - Excluir curso");
+    console.log("4 - Atualizar curso");
     console.log("0 - Sair");
 
     const opcao = readline.questionInt("Escolha uma opcao: ");
@@ -91,6 +124,8 @@ function menu() {
         listarCurso();
     } else if (opcao === 3) {
         excluirCurso();
+    } else if (opcao === 4) {
+        atualizarCurso();
     } else if (opcao === 0) {
         console.log("Programa encerrado");
         conexao.end();

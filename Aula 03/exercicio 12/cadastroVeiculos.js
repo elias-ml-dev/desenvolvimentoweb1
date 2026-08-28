@@ -10,7 +10,7 @@ const conexao = mysql.createConnection({
     database: "sistema_veiculos"    
 });
 
-//Função para cadastrar v
+//Função para cadastrar 
 function cadastrarVeiculo() {
 
     const modelo = readline.question("Digite o modelo do veiculo: ");
@@ -29,6 +29,36 @@ function cadastrarVeiculo() {
         }
          menu();
     });  
+}
+
+//Função atualizar
+function atualizarVeiculo(){
+     
+    // ID que será atualizado
+    const id = readline.questionInt("Digite o ID do veiculo que deseja atualizar: ");
+        
+        console.log(`\nAtualizando dados `);
+
+        const modelo = readline.question("Digite o modelo do veiculo: ");
+        const placa = readline.question("Digite a placa do veiculo: ");
+
+        const update = `
+            UPDATE veiculos
+            SET modelo = ?, placa = ? 
+            WHERE id = ?
+        `;
+        conexao.query(update, [modelo, placa, id], function (erro, resultado) {
+        
+            if (erro) {
+                console.log("Erro ao atualizar o veiculo.");
+                console.log(erro);
+            } else if (resultado.affectedRows === 0) {
+                console.log("Veículo não encontrado.");
+            } else {
+                console.log("Veículo atualizado com sucesso!");
+            }
+        menu();
+        });
 }
 
 // Função para excluir 
@@ -84,6 +114,7 @@ function menu() {
     console.log("1 - Cadastrar veículo");
     console.log("2 - Listar veículos");
     console.log("3 - Excluir veículo");
+    console.log("4 - Atualizar veículo");
     console.log("0 - Sair");
 
     const opcao = readline.questionInt("Escolha uma opcao: ");
@@ -94,6 +125,8 @@ function menu() {
         listarVeiculo();
     } else if (opcao === 3){
         excluirVeiculo();
+    } else if (opcao === 4){
+        atualizarVeiculo();
     } else if (opcao === 0) {
         console.log("Programa encerrado");
         conexao.end();

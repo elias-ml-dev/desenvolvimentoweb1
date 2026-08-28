@@ -30,6 +30,36 @@ function cadastrarJogo() {
     });  
 }
 
+//Função atualizar
+function atualizarJogo(){
+     
+    // ID que será atualizado
+    const id = readline.questionInt("Digite o ID do jogo que deseja atualizar: ");
+        
+        console.log(`\nAtualizando dados `);
+
+        const nome = readline.question("Digite o  novo nome: ");
+        const genero = readline.question("Digite o novo genero: ");
+
+        const update = `
+            UPDATE jogos
+            SET nome = ?, genero = ? 
+            WHERE id = ?
+        `;
+        conexao.query(update, [nome, genero, id], function (erro, resultado) {
+        
+            if (erro) {
+                console.log("Erro ao atualizar o jogo.");
+                console.log(erro);
+            } else if (resultado.affectedRows === 0) {
+                console.log("Jogo não encontrado.");
+            } else {
+                console.log("Jogo atualizado com sucesso!");
+            }
+        menu();
+        });
+}
+
 // Função para excluir 
 
 function excluirJogo() {
@@ -81,6 +111,7 @@ function menu() {
     console.log("1 - Cadastrar jogo");
     console.log("2 - Listar jogos");
     console.log("3 - Excluir jogo");
+    console.log("4 - Atualizar jogo");
     console.log("0 - Sair");
 
     const opcao = readline.questionInt("Escolha uma opcao: ");
@@ -91,6 +122,8 @@ function menu() {
         listarJogo();
     } else if (opcao === 3) {
         excluirJogo();
+    } else if (opcao === 4) {
+        atualizarJogo();
     } else if (opcao === 0) {
         console.log("Programa encerrado");
         conexao.end();
