@@ -69,6 +69,28 @@ function atualizarAluno(){
         });
 }
 
+// Função para excluir 
+
+function excluirAluno() {
+
+    const id = readline.questionInt("Digite o ID do Aluno: ");
+
+    const deletar ="DELETE FROM alunos2 WHERE id = ?";
+
+    conexao.query(deletar, [id], function (erro, resultado){
+
+        if (erro) {
+            console.log("Erro ao excluir o aluno.");
+        } else if (resultado.affectedRows === 0) {
+            console.log("Aluno não encontrado.");
+        } else {
+            console.log("Aluno excluído com sucesso!");
+        }
+
+        menu();
+    });
+}
+
 
 // Função para listar alunos
 function listarAlunos() {
@@ -121,7 +143,7 @@ function menu() {
         console.log("Programa encerrado");
         conexao.end();
     } else {
-        console.log("Opção invalida")
+        console.log("Opção invalida");
         menu();
     }
 }
