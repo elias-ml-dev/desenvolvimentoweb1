@@ -41,8 +41,8 @@ function atualizarProduto(){
         console.log(`\nAtualizando dados `);
 
         const nome = readline.question("Digite o nome do produto: ");
-        const preco = readline.question("Digite o preco: ")
-        const quantidade = readline.question("Digite a quantidade: ")
+        const preco = readline.questionFloat("Digite o preco: ")
+        const quantidade = readline.questionInt("Digite a quantidade: ")
 
         const update = `
             UPDATE produtos
@@ -69,22 +69,51 @@ function atualizarProduto(){
 function excluirProduto() {
 
     const id = readline.questionInt("Digite o ID do PRODUTO: ");
+    
+    const sql = "SELECT * FROM produtos WHERE id = ?";
+    
+    conexao.query(sql,[id], function(erro,produtos){
 
-    const deletar ="DELETE FROM produtos WHERE id = ?";
+        if(erro){
+            console.log("Erro ao buscar produto");
+            menu();
+        } else if(produtos.length === 0){
+            console.log("Produto não encontrado");
+            menu();
+        } else{
+            console.log("\nRegistro encontrado:");
+            console.log("Nome: ", produtos[0].nome);
+            console.log("Preço: ", produtos[0].preco);
+            console.log("Quantidade: ", produtos[0].quantidade);
 
-    conexao.query(deletar, [id], function (erro, resultado){
 
-        if (erro) {
-            console.log("Erro ao excluir o produto.");
-        } else if (resultado.affectedRows === 0) {
-            console.log("Produto não encontrado.");
-        } else {
-            console.log("Produto excluído com sucesso!");
+            const confirmaCancelamento = readline.question ("Deseja realmente excluir este produto? ")
+            const deletar ="DELETE FROM produtos WHERE id = ?";
+
+            if (confirmaCancelamento === "S" || confirmaCancelamento === "s"){
+                conexao.query(deletar, [id], function (erro, resultado){
+
+                    if (erro) {
+                        console.log("Erro ao excluir o produto.");
+                    } else if (resultado.affectedRows === 0) {
+                        console.log("Produto não encontrado.");
+                    } else {
+                        console.log("Produto excluído com sucesso!");
+                    }
+
+                menu();
+            });
+            } else if(confirmaCancelamento === "N" || confirmaCancelamento === "n"){
+                console.log("Exclusão cancelada.");
+                menu();
+            } else {
+                console.log("Opção inválida.");
+                menu();
+            }
         }
-
-        menu();
     });
 }
+
 
 
 // Função para listar 

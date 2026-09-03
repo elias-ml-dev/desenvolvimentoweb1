@@ -73,23 +73,55 @@ function atualizarAluno(){
 
 function excluirAluno() {
 
-    const id = readline.questionInt("Digite o ID do Aluno: ");
+    const id = readline.questionInt("Digite o ID do aluno: ");
+    
+    const sql = "SELECT * FROM alunos2 WHERE id = ?";
 
-    const deletar ="DELETE FROM alunos2 WHERE id = ?";
-
-    conexao.query(deletar, [id], function (erro, resultado){
+    conexao.query(sql, [id], function (erro, alunos2) {
 
         if (erro) {
-            console.log("Erro ao excluir o aluno.");
-        } else if (resultado.affectedRows === 0) {
+            console.log("Erro ao buscar aluno.");
+            menu();
+        } 
+        else if (alunos2.length === 0) {
             console.log("Aluno não encontrado.");
-        } else {
-            console.log("Aluno excluído com sucesso!");
-        }
+            menu();
+        } 
+        else {
 
-        menu();
+            console.log("\nRegistro encontrado:");
+            console.log("Nome:", alunos2[0].nome);
+            console.log("Email:", alunos2[0].email);
+
+            const confirmar = readline.question("Deseja excluir? (S/N): ");
+
+            if (confirmar === "S" || confirmar === "s") {
+
+                const deletar ="DELETE FROM alunos2 WHERE id = ?";
+                
+                conexao.query(deletar, [id], function (erro, resultado){
+
+                    if (erro) {
+                        console.log("Erro ao excluir o aluno.");
+                    } else if (resultado.affectedRows === 0) {
+                        console.log("Aluno não encontrado.");
+                    } else {
+                        console.log("Aluno excluído com sucesso!");
+                    }
+
+                    menu();
+                });
+            } else if (confirmar === "N" || confirmar === "n") {
+                console.log("Exclusão cancelada.");
+            menu();
+            } else {
+                console.log("Opção inválida.");
+            menu();
+            }
+        }
     });
 }
+
 
 
 // Função para listar alunos
