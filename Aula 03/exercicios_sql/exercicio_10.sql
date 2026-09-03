@@ -1,5 +1,5 @@
 CREATE DATABASE cadastro_computadores;
-USE ccadastro_computadores;
+USE cadastro_computadores;
 
 CREATE TABLE computadores( 
 	id INT AUTO_INCREMENT PRIMARY KEY, 

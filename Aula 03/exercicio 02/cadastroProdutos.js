@@ -14,8 +14,8 @@ const conexao = mysql.createConnection({
 function cadastrarProduto() {
 
     const nome = readline.question("Digite o nome do produto: ");
-    const preco = readline.question("Digite o preco: ")
-    const quantidade = readline.question("Digite a quantidade: ")
+    const preco = readline.questionFloat("Digite o preco: ")
+    const quantidade = readline.questionInt("Digite a quantidade: ")
 
     const insert = "INSERT INTO produtos (nome, preco, quantidade) VALUES (?,?,?)";
 

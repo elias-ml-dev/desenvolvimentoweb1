@@ -4,7 +4,7 @@ const readline = require("readline-sync")
 
 // Conexão com o MySQL
 const conexao = mysql.createConnection({
-    host:"127.0.0.1",
+    host:"localhost",
     user: "root",
     password: "root",
     database: "sistema_veiculos"    
