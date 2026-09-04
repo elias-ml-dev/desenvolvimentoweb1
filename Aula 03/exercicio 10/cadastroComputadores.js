@@ -84,7 +84,7 @@ function excluirComputador() {
             console.log("Patrimônio:", computadores[0].patrimonio);
             console.log("Localização:", computadores[0].localizacao);
 
-            const confirmar = readline.question("Deseja excluir? (S/N): ");
+            const confirmar = readline.question("Deseja excluir este computador? (S/N): ");
 
             if (confirmar === "S" || confirmar === "s") {
 
@@ -101,8 +101,11 @@ function excluirComputador() {
                     menu();
                 });
 
-            } else {
+            } else if(confirmar === "N" || confirmar === "n"){
                 console.log("Exclusão cancelada.");
+                menu();
+            } else{
+                console.log("Opção inválida.");
                 menu();
             }
         }

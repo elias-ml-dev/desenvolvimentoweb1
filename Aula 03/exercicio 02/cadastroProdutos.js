@@ -81,7 +81,7 @@ function excluirProduto() {
             console.log("Produto não encontrado");
             menu();
         } else{
-            console.log("\nRegistro encontrado:");
+            console.log("\nProduto encontrado:");
             console.log("Nome: ", produtos[0].nome);
             console.log("Preço: ", produtos[0].preco);
             console.log("Quantidade: ", produtos[0].quantidade);

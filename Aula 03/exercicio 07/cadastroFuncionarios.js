@@ -66,35 +66,45 @@ function atualizarFuncionario(){
 function excluirFuncionario() {
 
     const id = readline.questionInt("Digite o ID do FUNCIONÁRIO: ");
+    const sql = "SELECT * FROM funcionarios WHERE id = ?";
 
-    const deletar ="DELETE FROM funcionarios WHERE id = ?";
+    conexao.query(sql,[id], function(erro, funcionarios){
+        if(erro){
+            console.log("Erro ao buscar funcionários.");
+            console.log(erro)
+            menu();
+        } else if(funcionarios.length === 0){
+            console.log("Funcionário não encontrado. ");
+            menu();
+        } else{
+            console.log("\nFuncionário encontrado: ");
+            console.log("Nome: ", funcionarios[0].nome);
+            console.log("Cargo: ", funcionarios[0].cargo);
 
-    const confirmaCancelamento = readline.question ("Deseja realmente excluir este funcionário? ")
+            const confirmar = readline.question("Deseja realmente excluir este funcionário? (S/N) ");
 
-        if (confirmaCancelamento === "S" || confirmaCancelamento === "s"){
-             conexao.query(deletar, [id], function (erro, resultado){
-
-                if (erro) {
-                    console.log("Erro ao excluir o funcionario.");
-                } else if (resultado.affectedRows === 0) {
-                    console.log("Funcionário não encontrado.");
-                } else {
-                    console.log("Funcionário excluído com sucesso!");
-                }
-
+            if(confirmar === "S" || confirmar === "s"){
+                const deletar = "DELETE FROM funcionarios WHERE id = ?";
+                conexao.query(deletar,[id],function(erro,resultado){
+                    if(erro){
+                        console.log("Erro ao excluir funcionário.");
+                        console.log(erro)
+                    } else if(resultado.affectedRows === 0){
+                        console.log("Funcionário não encontrado. ")
+                    } else {
+                        console.log("Funcionário excluido com sucesso! ")
+                    }
+                    menu();
+                });
+            }else if(confirmar === "N" || confirmar === "n"){
+                console.log("Exclusão cancelada.");
                 menu();
-            });
+            }else{
+                console.log("Opção inválida. ");
+                menu();
+            }
         }
-        else if (confirmaCancelamento === "N" || confirmaCancelamento === "n") {
-
-        console.log("Exclusão cancelada.");
-        menu();
-        }
-        else {
-
-        console.log("Opção inválida.");
-        menu();
-    }
+    });
 }
 
 

@@ -65,20 +65,44 @@ function atualizarEvento(){
 function excluirEvento() {
 
     const id = readline.questionInt("Digite o ID do EVENTO: ");
+    const sql = "SELECT * FROM eventos WHERE id = ?";
 
-    const deletar ="DELETE FROM eventos WHERE id = ?";
+    conexao.query(sql,[id], function(erro, eventos){
+        if(erro){
+            console.log("Erro ao buscar evento.");
+            console.log(erro)
+            menu();
+        } else if(eventos.length === 0){
+            console.log("Evento não encontrado. ");
+            menu();
+        } else{
+            console.log("\nEvento encontrado: ");
+            console.log("Nome: ", eventos[0].nome);
+            console.log("Carga do Evento: ", eventos[0].data_evento);
 
-    conexao.query(deletar, [id], function (erro, resultado){
+            const confirmar = readline.question("Deseja realmente excluir este evento? (S/N) ");
 
-        if (erro) {
-            console.log("Erro ao excluir o evento.");
-        } else if (resultado.affectedRows === 0) {
-            console.log("Evento não encontrado.");
-        } else {
-            console.log("Evento excluído com sucesso!");
+            if(confirmar === "S" || confirmar === "s"){
+                const deletar = "DELETE FROM eventos WHERE id = ?";
+                conexao.query(deletar,[id],function(erro,resultado){
+                    if(erro){
+                        console.log("Erro ao excluir evento.");
+                        console.log(erro)
+                    } else if(resultado.affectedRows === 0){
+                        console.log("Evento não encontrado. ")
+                    } else {
+                        console.log("Evento excluido com sucesso! ")
+                    }
+                    menu();
+                });
+            }else if(confirmar === "N" || confirmar === "n"){
+                console.log("Exclusão cancelada.");
+                menu();
+            }else{
+                console.log("Opção inválida. ");
+                menu();
+            }
         }
-
-        menu();
     });
 }
 

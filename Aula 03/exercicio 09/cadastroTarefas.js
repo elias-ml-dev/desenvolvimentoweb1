@@ -65,21 +65,45 @@ function atualizarTarefa(){
 
 function excluirTarefa() {
 
-    const id = readline.questionInt("Digite o ID da TAREFA: ");
+    const id = readline.questionInt("Digite o ID da tarefa: ");
+    const sql = "SELECT * FROM tarefas WHERE id = ?";
 
-    const deletar ="DELETE FROM tarefas WHERE id = ?";
+    conexao.query(sql,[id], function(erro, tarefas){
+        if(erro){
+            console.log("Erro ao buscar tarefa.");
+            console.log(erro)
+            menu();
+        } else if(tarefas.length === 0){
+            console.log("Tarefa não encontrada. ");
+            menu();
+        } else{
+            console.log("\nTarefa encontrado: ");
+            console.log("Descrição: ", tarefas[0].descricao);
+            console.log("Responsável: ", tarefas[0].responsavel);
 
-    conexao.query(deletar, [id], function (erro, resultado){
+            const confirmar = readline.question("Deseja realmente excluir esta tarefa? (S/N) ");
 
-        if (erro) {
-            console.log("Erro ao excluir a tarefa.");
-        } else if (resultado.affectedRows === 0) {
-            console.log("Tarefa não encontrada.");
-        } else {
-            console.log("Tarefa excluída com sucesso!");
+            if(confirmar === "S" || confirmar === "s"){
+                const deletar = "DELETE FROM tarefas WHERE id = ?";
+                conexao.query(deletar,[id],function(erro,resultado){
+                    if(erro){
+                        console.log("Erro ao excluir tarefa.");
+                        console.log(erro)
+                    } else if(resultado.affectedRows === 0){
+                        console.log("Tarefa não encontrada. ")
+                    } else {
+                        console.log("Tarefa excluida com sucesso! ")
+                    }
+                    menu();
+                });
+            }else if(confirmar === "N" || confirmar === "n"){
+                console.log("Exclusão cancelada.");
+                menu();
+            }else{
+                console.log("Opção inválida. ");
+                menu();
+            }
         }
-
-        menu();
     });
 }
 

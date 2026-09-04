@@ -65,20 +65,45 @@ function atualizarCliente(){
 function excluirCliente() {
 
     const id = readline.questionInt("Digite o ID do CLIENTE: ");
+    const sql = "SELECT * FROM clientes WHERE id = ?";
 
-    const deletar ="DELETE FROM clientes WHERE id = ?";
+    conexao.query(sql,[id], function(erro,clientes){
+        if(erro){
+            console.log("Erro ao buscar cliente. ");
+            console.log(erro)
+            menu();
+        } else if(clientes.length === 0){
+            console.log("Cliente não encontrado. ");
+            menu();
+        } else{
+            console.log("\nCliente encontrado: ");
+            console.log("Nome: ", clientes[0].nome);
+            console.log("Telefone: ", clientes[0].telefone);
 
-    conexao.query(deletar, [id], function (erro, resultado){
+            const confirmar = readline.question("Deseja reamente excluir este cliente? (S/N)");
 
-        if (erro) {
-            console.log("Erro ao excluir o cliente.");
-        } else if (resultado.affectedRows === 0) {
-            console.log("Cliente não encontrado.");
-        } else {
-            console.log("Cliente excluído com sucesso!");
+            if(confirmar === "S" || confirmar === "s"){
+                const deletar = "DELETE FROM clientes WHERE id = ?";
+
+                conexao.query(deletar,[id], function(erro,resultado){
+                    if(erro){
+                        console.log("Erro ao excluir cliente. ");
+                        console.log(erro)
+                    } else if(resultado.affectedRows === 0){
+                        console.log("Cliente não encontrado. ");
+                    } else{
+                        console.log("Cliente excluido com sucesso" );
+                    }
+                    menu();
+                });
+            } else if(confirmar === "N" || confirmar === "n"){
+                console.log("Exclusão cancelada. ");
+                menu();
+            } else{
+                console.log("Opção inválida. ");
+                menu();
+            }
         }
-
-        menu();
     });
 }
 

@@ -66,21 +66,46 @@ function atualizarFilme(){
 function excluirFilme() {
 
     const id = readline.questionInt("Digite o ID do FILME: ");
+    const sql ="SELECT * FROM filmes2 WHERE id = ?";
 
-    const deletar ="DELETE FROM filmes2 WHERE id = ?";
+    conexao.query(sql,[id],function(erro, filmes2){
+        if(erro){
+            console.log("Erro ao buscar filme. ");
+            console.log(erro)
+            menu();
+        } else if(filmes2.length === 0){
+            console.log("Filme não encontrado");
+            menu();
+        } else{
+            console.log("\nFilme encontrado. ");
+            console.log("Titulo: ", filmes2[0].titulo);
+            console.log("Ano: ", filmes2[0].ano);
 
-    conexao.query(deletar, [id], function (erro, resultado){
+            const confirmar = readline.question("Deseja realmente excluir o filme? (S/N) ");
+            if(confirmar === "S" || confirmar === "s"){
+                const deletar = "DELETE FROM filmes2 WHERE id = ?";
 
-        if (erro) {
-            console.log("Erro ao excluir o filme.");
-        } else if (resultado.affectedRows === 0) {
-            console.log("Filme não encontrado.");
-        } else {
-            console.log("Filme excluído com sucesso!");
+                conexao.query(deletar,[id], function(erro,resultado){
+                    if(erro){
+                        console.log("Erro ao excluir filme. ");
+                        console.log(erro)
+                    }else if(resultado.affectedRows === 0){
+                        console.log("Filme não encontrado. ")
+                    } else{
+                        console.log("Filme excluido com sucesso! ");
+                    }
+                    menu();
+                })
+            }else if(confirmar === "N" || confirmar === "n"){
+                console.log("Exclusão cancelada. ");
+                menu();
+            }else{
+                console.log("Opção inválida. ");
+                menu();
+            }
         }
-
-        menu();
     });
+
 }
 
 

@@ -45,10 +45,10 @@ function atualizarAluno(){
 
         const nome = readline.question("Digite o nome do aluno: ");
         const email = readline.question("Digite o email do aluno: ");
-        const endereco = readline.question("Digite o endereço: ")
-        const matricula = readline.question("Digite a matricula: ")
-        const curso = readline.question("Digite o nome do curso: ")
-        const serie = readline.question("Digite a serie: ") 
+        const endereco = readline.question("Digite o endereço: ");
+        const matricula = readline.question("Digite a matricula: ");
+        const curso = readline.question("Digite o nome do curso: ");
+        const serie = readline.question("Digite a serie: ") ;
 
         const update = `
             UPDATE alunos2
@@ -89,7 +89,7 @@ function excluirAluno() {
         } 
         else {
 
-            console.log("\nRegistro encontrado:");
+            console.log("\nAluno encontrado:");
             console.log("Nome:", alunos2[0].nome);
             console.log("Email:", alunos2[0].email);
 

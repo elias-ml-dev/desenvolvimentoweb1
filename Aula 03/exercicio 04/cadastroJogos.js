@@ -65,21 +65,46 @@ function atualizarJogo(){
 function excluirJogo() {
 
     const id = readline.questionInt("Digite o ID do JOGO: ");
+    const sql = "SELECT * FROM  jogos WHERE id = ?";
 
-    const deletar ="DELETE FROM jogos WHERE id = ?";
-
-    conexao.query(deletar, [id], function (erro, resultado){
-
-        if (erro) {
-            console.log("Erro ao excluir o jogo.");
-        } else if (resultado.affectedRows === 0) {
+    conexao.query(sql,[id],function(erro,jogos){
+        if(erro){
+            console.log("Erro ao buscar jogo. ");
+            console.log(erro)
+            menu();
+        } else if(jogos.length === 0){
             console.log("Jogo não encontrado.");
-        } else {
-            console.log("Jogo excluído com sucesso!");
-        }
+            menu();
+        } else{
+            console.log("\nJogo encontrado: ");
+            console.log("Nome: ", jogos[0].nome);
+            console.log("Genero: ", jogos[0].genero);
 
-        menu();
-    });
+            const confirmar = readline.question("Deseja realmente excluir? (S/N) ");
+
+            if(confirmar === "S" || confirmar === "s"){
+                const deletar = "DELETE FROM jogos WHERE id = ?";
+                conexao.query(deletar,[id],function(erro, resultado){
+                    if(erro){
+                        console.log("Erro ao excluir jogo.");
+                        console.log(erro)
+                    } else if(resultado.affectedRows === 0){
+                        console.log("Jogo não encontrado. ");
+                    } else{
+                        console.log("Jogo excluido com sucesso" );
+                    }
+                    menu();
+                })
+
+            } else if(confirmar === "N" || confirmar === "n"){
+                console.log("Exclusão cancelada. ")
+                menu();
+            } else{
+                console.log("Opção inválida. ");
+                menu();
+            }
+        }
+    }); 
 }
 
 

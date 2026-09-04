@@ -65,21 +65,45 @@ function atualizarVeiculo(){
 
 function excluirVeiculo() {
 
-    const id = readline.questionInt("Digite o ID do veiculo: ");
+    const id = readline.questionInt("Digite o ID do VEICULO: ");
+    const sql = "SELECT * FROM veiculos WHERE id = ?";
 
-    const deletar ="DELETE FROM veiculos WHERE id = ?";
+    conexao.query(sql,[id], function(erro, veiculos){
+        if(erro){
+            console.log("Erro ao buscar veiculo.");
+            console.log(erro)
+            menu();
+        } else if(veiculos.length === 0){
+            console.log("Veiculo não encontrado. ");
+            menu();
+        } else{
+            console.log("\nVeiculo encontrado: ");
+            console.log("Modelo: ", veiculos[0].modelo);
+            console.log("Placa: ", veiculos[0].placa);
 
-    conexao.query(deletar, [id], function (erro, resultado){
+            const confirmar = readline.question("Deseja realmente excluir este Veículos? (S/N) ");
 
-        if (erro) {
-            console.log("Erro ao excluir o veiculo.");
-        } else if (resultado.affectedRows === 0) {
-            console.log("Veículo não encontrado.");
-        } else {
-            console.log("Veículo excluído com sucesso!");
+            if(confirmar === "S" || confirmar === "s"){
+                const deletar = "DELETE FROM veiculos WHERE id = ?";
+                conexao.query(deletar,[id],function(erro,resultado){
+                    if(erro){
+                        console.log("Erro ao excluir Veiculo.");
+                        console.log(erro)
+                    } else if(resultado.affectedRows === 0){
+                        console.log("Veiculo não encontrado. ")
+                    } else {
+                        console.log("Veiculo excluido com sucesso! ")
+                    }
+                    menu();
+                });
+            } else if(confirmar === "N" || confirmar === "n"){
+                console.log("Exclusão cancelada.");
+                menu();
+            }else{
+                console.log("Opção inválida. ");
+                menu();
+            }
         }
-
-        menu();
     });
 }
 
