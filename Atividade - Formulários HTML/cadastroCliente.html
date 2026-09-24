@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Cliente de uma Loja Virtual</title>
+</head>
+<body>
+    <form method="post" action="" onsubmit="alert('Cadastro realizado com sucesso! ')">
+        <h2> Cadastro de Cliente de uma Loja Virtual </h2>
+        <p> Insira seus dados para realizar o cadastro</p>
+
+        <label>Insira seu nome completo: </label><br>
+        <input type="text" name="nome" placeholder="Nome completo" required> <br>
+        <label>Insira o seu email: </label><br>
+        <input type="email" name="email" placeholder="Email" required> <br>
+        <label>Insira sua senha: </label> <br>
+        <input type="password" name="pwd" placeholder="Senha" required> <br> <br>
+    
+        <p>Informe sua data de nascimento</p>
+        <input type="date" name="nascimento"> <br> <br>
+
+        <p>Qual é o seu sexo? </p>
+        <input type="radio"
+               id="feminino"
+               name="sexo"
+               value="feminino"
+               required>
+        <label for="femininio">Feminino</label>
+        <br>
+        <input type="radio"
+               id="masculino"
+               name="sexo"
+               value="masculino"
+               required>
+        <label for="masculino">Masculino</label>       
+        <br>
+        <input type="radio"
+               id = "nao-informar"
+               name="sexo"
+               value="nao-informar"
+               required>
+        <label for="nao-informar">Prefiro não informar</label>
+        <br> <br>
+
+        <label>Selecione sua cor preferida: </label>
+        <input type="color" name="favcor" value="0000FF">
+        <br> <br> <br>
+        
+        <label>Comentário ou observação sobre o cadastro: </label> <br>
+        <textarea></textarea> <br> <br>
+        
+        <label>Envie uma foto de perfil </label> <br>
+        <input type="file" name="arquivos"><br> <br>
+
+        <input type="submit">
+    </form>   
+</body>
+</html>

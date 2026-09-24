@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Cliente de uma Loja Virtual</title>
+</head>
+<body>
+    <form method="post" action="" onsubmit="alert('Obrigado por participar da pesquisa!')">
+        <h2> Pesquisa sobre Meios de Transporte </h2>
+        <h3>A prefeitura de uma cidade está realizando uma pesquisa para saber quais meios de transporte são utilizados pelos moradores.</h3>
+        <h4> Responda o Formulário</h4>
+
+        <label>Insira o nome do participante: </label><br>
+        <input type="text" name="nome" placeholder="Nome do participante" required> <br> <br>
+    
+        <p>Informe sua data de nascimento</p>
+        <input type="date" name="nascimento"> <br> <br>
+
+        <p>Selecione o meio de transporte utilizado?</p>
+        <input type="checkbox" name="veiculo1" value="bicicleta">
+        Bicileta<br>
+        <input type="checkbox" name="veiculo2" value="carro"> 
+        Carro<br>
+        <input type="checkbox" name="veiculo3" value="moto">
+        Moto<br>
+        <input type="checkbox" name="veiculo4" value="onibus">
+        Ônibus<br>
+        <input type="checkbox" name="veiculo5" value="aplicativo-transporte">
+        Aplicativo de transporte<br> 
+        <input type="checkbox" name="veiculo6" value="caminhada">
+        Caminhada <br> <br>
+
+        <label>Informe a quantidade de veículos que possui:  </label>
+        <input type="number" name="quantidade" min="0" max="5">
+        <br> <br>
+        
+        <p>Nível de satisfação com o transporte público</p> <br>
+        Pouco satisfeito
+        <input type="range" name="satisfacao" min="0" max = "10">
+        Muito satisfeito
+        <br> <br>
+
+        <label>Comentário sobre o trânsito da cidade: </label><br>
+        <input type="textarea" name="comentario" placeholder="Comentário obrigatório " required> <br> <br>
+    
+        <input type="submit">
+    </form>   
+</body>
+</html>
