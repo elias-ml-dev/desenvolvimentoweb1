@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Inscrição em Curso</title>
+</head>
+<body>
+    <form method="post" action="" onsubmit="alert('Inscrição enviada com sucesso!')">
+        <h2>Sistema de Inscrição em Curso </h2>
+        <h3> Preencha o formulário com atenção.</h3>
+        
+        <label>Informe o nome completo: </label> <br>
+        <input type="text" name="nome" placeholder="Nome completo" required> <br>
+        <label>Informe o email: </label> <br>
+        <input type="email" name="email" placeholder="Email" required> <br>
+        <label>Digite uma senha: </label> <br>
+        <input type="password" name="senha" placeholder="Senha" required> <br> <br>
+        
+        <p>Qual curso deseja fazer? </p>
+        <input type="radio"
+               id="dev-sistemas"
+               name="curso"
+               value="dev-sistemas"
+               required>
+        <label for="dev-sistemas">Desenvolvimento de Sistemas</label>
+        <br>
+        <input type="radio"
+               id="adm"
+               name="curso"
+               value="adm"
+               required>
+            <label for="adm">Administração</label>       
+        <br>
+        <input type="radio"
+               id = "rh"
+               name="curso"
+               value="rh"
+               required>
+        <label for="rh">Recursos Humanos</label>
+        <br> 
+        <input type="radio"
+               id="dados"
+               name="curso"
+               value="dados"
+               required>
+        <labe for="dados">Ciência de Dados</labe>
+        <br> <br>
+
+        <p>Qual turno?</p>
+        <input type="radio"
+               id="matutino"
+               name="turno"
+               value="matutino"
+               required>
+        <label for="matutino">Matutino</label>
+        <br>
+        <input type="radio"
+               id="vespertino"
+               name="turno"
+               value="vespertino"
+               required>
+        <label for="vespertino">Vespertino</label>
+        <br>
+        <input type="radio"
+               id="norturno"
+               name="turno"
+               value="noturno"
+               required>
+        <label for="noturno">Noturno</label>
+        <br> <br>
+
+        <p>Nível de interesse no curso, de 0 a 10: </p> <br>
+        Pouco interesse
+        <input type="range" name="interesse" min="0" max = "10" value="5" oninput="nivelAtual.value = this.value">  
+        Muito interesse <br>
+        Nível selecionado: <output id="nivelAtual">5</output>
+        <br> <br>
+        
+        <label>Enviar documento: </label> <br>
+        <input type="file" name="arquivos" multiple> <br> <br>
+        
+
+        <label>Escreva o porque deseja fazer o curso:  </label> <br>
+        <textarea></textarea> <br> <br>
+
+
+    <input type="submit">
+
+    </form>
+</body>
+</html>

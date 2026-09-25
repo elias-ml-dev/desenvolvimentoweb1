@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento de Atendimento Médico</title>
+</head>
+<body>
+    <form method="post" action="" onsubmit="alert('Solicitação de agendamento enviada!')">
+        <h2>Agendamento de Atendimento Médico</h2>
+        <h3> Agendamento de consultas</h3>
+        
+        <label>Insira o nome do paciente: </label> <br>
+        <input type="text" name="nome" placeholder="Nome do paciente" required> <br>
+        <label>Insira o email: </label> <br>
+        <input type="email" name="email" placeholder="Email"> <br> <br>
+
+        <p>Informe sua data de nascimento</p>
+        <input type="date" name="nascimento" required> <br> 
+        
+        <p>Informe a data e horário desejado para a consulta: </p>
+        <input type="datetime-local" name="data" required> <br>
+
+        <p>Tipo de atendimento: </p>
+        <input type="radio"
+               id="cons-rotina"
+               name="atendimento"
+               value="cons-rotina"
+               required>
+        <label for="cons-rotina">Consulta de rotina</label>
+        <br>
+        <input type="radio"
+               id="retorno"
+               name="atendimento"
+               value="retorno"
+               required>
+        <label for="retorno">Retorno</label>
+        <br>
+        <input type="radio"
+               id="exame"
+               name="atendimento"
+               value="exame"
+               required>
+        <label for="exame">Exame</label>
+        <br>
+        <input type="radio"
+               id="prioritario"
+               name="atendimento"
+               value="prioritario"
+               required>
+        <label for="prioritario">Atendimento prioritário</label>
+        <br> <br>
+
+        <p>Informe o Nível de dor ou desconforto, de 0 a 10</p>
+        Pouca dor
+        <input type="range" name="nivel-dor" min="0" max="10" value="5" oninput="nivelAtual.value = this.value"> 
+        Muita dor <br>
+        Nível de dor selecionado: <output id="nivelAtual">5</output>
+        <br> <br>
+
+        <label>Descreva os sintomas: </label> <br>
+        <textarea placeholder="Escreva aqui... " required></textarea> 
+
+        <p>Anexar exames: </p>
+        <input type="file" name="arquivos" multiple>
+        <br> <br>
+
+        <input type="radio"
+               id="autorizacao"
+               name="caixa"
+               value="autorizacao"
+               required>
+        <label for="autorizacao"><italic><strong>Autorizo o uso dos meus dados para fins de agendamento.</strong> </italic></label> <br>
+        <input type="submit">
+    
+    </form>
+</body>
+</html>

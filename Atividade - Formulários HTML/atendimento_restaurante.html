@@ -1,0 +1,73 @@
+ <!DOCTYPE html>
+ <html lang="pt-br">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação de Atendimento em Restaurante</title>
+ </head>
+ <body>
+    <form method="post" action="" onsubmit="alert('Obrigado por avaliar nosso atendimento!')">
+        <h2>Avaliação de Atendimento em Restaurante</h2>
+        <h3> Formulário para conhcer a opnião dos clientes sobre o atendimento recebido.</h3>
+
+        <label>Informe o nome: </label> <br>
+        <input type="text" name="nome" placeholder="Nome do cliente" required> <br>
+        <label>Informe a data e o horário da visita:</label> <br>
+        <input type="datetime-local" name="data" required> <br>
+
+        <p>Forma de atendimento: </p>
+        <input type="radio"
+               id="presencial"
+               name="forma"
+               value="presencial"
+               required>
+        <label for="presencial">Presencial</label>
+        <br>
+        <input type="radio"
+               id="retirada"
+               name="forma"
+               value="retirada"
+               required>
+        <label for="retirada">Retirada no local</label>
+        <br>
+        <input type="radio"
+               id="entrega"
+               name="forma"
+               value="entrega"
+               required>
+        <label for="entrega">Entrega</label>
+        <br> <br>
+
+         <p>Itens consumidos</p>
+        <input type="checkbox" name="tipo1" value="bebidas">
+        Bebidas<br>
+        <input type="checkbox" name="tipo2" value="lanches"> 
+        Lanches<br>
+        <input type="checkbox" name="tipo3" value="pratos">
+        Pratos<br>
+        <input type="checkbox" name="tipo4" value="sobremesas">
+        Sobremesas <br> <br>
+
+        <p>Informe o Nível de satisfação, de 0 a 10</p>
+        Pouco satisfeito
+        <input type="range" name="nivel-dor" min="0" max="10" value="5" oninput="satisfacaoAtual.value = this.value"> 
+        Muito satisfeito <br>
+        Nível de satisfação selecionado: <output id="satisfacaoAtual">5</output>
+        <br> <br>
+
+        <label>Selecione a cor que representa a sua experiência: </label>
+        <input type="color" name="favcor" value="0000FF">
+        <br> <br>
+
+        <label>Comentário sobre o atendimento: </label> <br>
+        <textarea placeholder="Comente aqui... "></textarea> <br> <br>
+
+        <label>Informe a quantidade de pessoas que estavam na mesa:  </label>
+        <input type="number" name="quantidade" min="1" max="20">
+        <br> <br>
+
+        <input type="submit">
+
+    </form>
+ </body>
+ </html>

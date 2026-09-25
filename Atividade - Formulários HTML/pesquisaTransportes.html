@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Cliente de uma Loja Virtual</title>
 </head>
 <body>
-    <form method="post" action="" onsubmit="alert('Obrigado por participar da pesquisa!')">
+    <form method="post" action="" onsubmit="alert('Formulário respondido!')">
         <h2> Pesquisa sobre Meios de Transporte </h2>
-        <h3>A prefeitura de uma cidade está realizando uma pesquisa para saber quais meios de transporte são utilizados pelos moradores.</h3>
+        <h3>A prefeitura está realizando uma pesquisa para saber quais meios de transporte são utilizados pelos moradores.</h3>
         <h4> Responda o Formulário</h4>
 
         <label>Insira o nome do participante: </label><br>
@@ -35,15 +35,23 @@
         <input type="number" name="quantidade" min="0" max="5">
         <br> <br>
         
-        <p>Nível de satisfação com o transporte público</p> <br>
+        <p>Nível de satisfação com o transporte público, de 0  a 10: </p> <br>
         Pouco satisfeito
         <input type="range" name="satisfacao" min="0" max = "10">
         Muito satisfeito
         <br> <br>
 
         <label>Comentário sobre o trânsito da cidade: </label><br>
-        <input type="textarea" name="comentario" placeholder="Comentário obrigatório " required> <br> <br>
-    
+        <textarea placeholder="Escreva aqui" required></textarea>
+        <br> <br>
+
+        <input type="button" value="Clique aqui" onclick="msg()">
+        <script>
+            function msg(){
+                alert("Obrigado por participar da pesquisa!")
+            }
+        </script>
+
         <input type="submit">
     </form>   
 </body>
