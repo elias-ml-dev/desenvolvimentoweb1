@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Uso de Tecnologia </title>
+</head>
+<body>
+    <form method="post" action="" onsubmit="alert('Obrigado por participar da Pesquisa!')">
+        <h2>Pesquisa de Uso de Tecnologia </h2>
+        <h3>Preencha o formulário com atenção: </h3>
+
+        <label>Informe o seu nome: </label><br>
+        <input type="text" name="nome" placeholder="Nome" required><br>
+        <label>Informe o seu email: </label><br>
+        <input type="email" name="email" placeholder="Email"><br>
+
+        <p>Informe a data de nascimento: </p>
+        <input type="date" name="data-nascimento"><br><br>
+
+        <p>Informe os equipamentos utilizados: </p>
+        <input type="checkbox" name="equipamento1" value="computador">
+        Computador<br>
+        <input type="checkbox" name="equipamento2" value="notebook">
+        Notebook<br>
+        <input type="checkbox" name="equipamento3" value="tablet">
+        Tablet<br>
+        <input type="checkbox" name="equipamento4" value="smartphone">
+        Smartphone<br>
+        <input type="checkbox" name="equipamento5" value="videogame">
+        Videogame<br><br>
+
+        <p>Informe a principal finalidade de uso: </p>
+        <input type="radio"
+            id="estudo"
+            name="finalidade"
+            value="estudo"
+            required>
+        <label for="estudo">Estudo</label>
+        <br>
+        <input type="radio"
+            id="trabalho"
+            name="finalidade"
+            value="trabalho"
+            required>
+        <label for="trabalho">Trabalho</label>
+        <br>
+        <input type="radio"
+            id="comunicacao"
+            name="finalidade"
+            value="comunicacao"
+            required>
+        <label for="comunicacao">Comunicação</label>
+        <br>
+        <input type="radio"
+            id="jogos"
+            name="finalidade"
+            value="jogos"
+            required>
+        <label for="jogos">Jogos</label>
+        <br>
+        <input type="radio"
+            id="entretenimento"
+            name="finalidade"
+            value="entretenimento"
+            required>
+        <label for="entretenimento">Entretenimento</label>
+        <br><br>
+
+        <p>Quantidade de horas diárias de uso: </p>
+        Hora: <input type="number" name="quantidade" min="1" max=" 24"><br><br>
+
+        <p>Nível de conhecimento em tecnologia: </p>
+        0
+        <input type="range" name="nivel" min="0" max="10">
+        10 <br><br>
+
+        <label>Informe a cor preferida para interfaces de sistemas: </label>
+        <input type="color" name="cor"> <br><br>
+
+        <p>Comentário sobre como a tecnologia faz parte de sua rotina: </p>
+        <textarea placeholder="Comente..."></textarea><br><br>
+
+        <p>Envie uma captura de tela ou imagem de um aplicativo que usa frequentemente: </p>
+        <input type="file" name="arquivo"><br><br>
+
+        <input type="submit" name="enviar" value="Enviar Formulário">
+    </form>
+</body>
+</html>
