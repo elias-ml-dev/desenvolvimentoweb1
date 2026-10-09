@@ -21,7 +21,7 @@ app.listen(8083, function(){
 });
 
 app.get("/" , function (req,res){
-    res.sendFile(__dirname+"/cadProduto.html")
+    res.sendFile(__dirname+"/cadProduto.html");
 });
 
 app.post("/adicionar", function(req, res){
