@@ -88,7 +88,7 @@ app.get("/listar", function(req,res){
                         <td>${row.quantidade}</td>
                         <td>${row.preco}</td>
                         <td><a href="/deletar/${row.id}">Deletar</a></td>
-                        <td><a href="/atualizar-form/${row.id}">Alterar</a></td>
+                        <td><a href="/atualizar-form">Alterar</a></td>
 
                         </tr>`).join('')}
                 </table>
@@ -138,33 +138,27 @@ app.post("/pesquisar", function(req,res){
 
 app.post("/atualizar/:id",(req,res) => {
     const update = "UPDATE produtos SET nome = ?, quantidade = ?, preco = ? WHERE id = ?";
+
     const nome = req.body.nome;
     const quantidade = req.body.quantidade;
     const preco = req.body.preco;
     const id = req.params.id;
 
-    connection.query(ipdate,[nome, quantidade, preco, id], function(err, result){
-        if(!err){
-            console.log("Dados atualizados com Sucesso! ");
-            res.send("Dados Atualizados");
-        }else{
-            console.error("Erro ao atualizar ", err);
-            res.status(500).send("Erro ao atualizar! ");
+    connection.query(update,[nome, quantidade, preco, id], function(err, result){
+        if (err) {
+        console.error("Erro ao atualizar:", err);
+        return res.status(500).send("Erro ao atualizar!");
+        }
+
+        if (result.affectedRows > 0) {
+            console.log("Dados atualizados com sucesso!");
+            return res.send("Produto atualizado com sucesso!");
+        } else {
+            return res.status(404).send("Produto não encontrado!");
         }
     });
 });
 
-app.get("/atualizar-form/:id", function(req,res){
-        const id = req.params.id;
-        const selectProduto= ("SELECT * FROM produtos WHERE id=?")
-
-        connection.query(selectProduto, [id], function(err, result){
-        if(!err && result.length >0){
-            const produto = result[0];
-            res.send("/atualizarProduto")
-        }else{
-            console.error("Erro ao obter dados do produto", err);
-                res.status(500).send("Erro ao obter dados do produto");
-        }
-    })
-})
+app.get("/atualizar-form", function(req, res) {
+    res.sendFile(__dirname + "/atualizarProduto.html");
+});
