@@ -41,7 +41,12 @@ const connection = mysql.createConnection({
 }
 consultarBanco();*/
 
-app.get("/", function(req,res){
+app.get("/", function(req, res){
+    res.sendFile(__dirname + "/index.html");
+});
+
+
+app.get("/adicionar", function(req, res){
     res.sendFile(__dirname + "/cadastro.html");
 });
 
@@ -71,6 +76,95 @@ app.get("/listar", function(req,res){
             res.send(`<html>
                 <head>
                     <title> Lista de produtos </title>
+                    <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f7f6;
+                        color: #333;
+                        margin: 0;
+                        padding: 40px 20px;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
+                    h1 {
+                        color: #2c3e50;
+                        margin-bottom: 25px;
+                    }
+
+                    table {
+                        background-color: #ffffff;
+                        border-collapse: collapse;
+                        width: 100%;
+                        max-width: 700px;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                        margin-bottom: 20px;
+                    }
+
+                    th, td {
+                        padding: 12px 15px;
+                        text-align: left;
+                        border-bottom: 1px solid #eee;
+                    }
+
+                    th {
+                        background-color: #2c3e50;
+                        color: white;
+                        font-weight: bold;
+                    }
+
+                    tr:hover {
+                        background-color: #f9f9f9;
+                    }
+
+                    td a {
+                        text-decoration: none;
+                        font-weight: bold;
+                        padding: 6px 10px;
+                        border-radius: 4px;
+                        font-size: 13px;
+                    }
+
+                    td a[href*="deletar"] {
+                        background-color: #ffebee;
+                        color: #e74c3c;
+                    }
+                    td a[href*="deletar"]:hover {
+                        background-color: #e74c3c;
+                        color: white;
+                    }
+
+                    td a[href*="atualizar-form"] {
+                        background-color: #e3f2fd;
+                        color: #2980b9;
+                    }
+                    td a[href*="atualizar-form"]:hover {
+                        background-color: #2980b9;
+                        color: white;
+                    }
+
+                    /* Bloco único e correto para manter os links lado a lado */
+                    .links-uteis {
+                        margin-top: 20px;
+                        text-align: center;
+                        white-space: nowrap;
+                    }
+
+                    .links-uteis a {
+                        color: #2980b9;
+                        text-decoration: none;
+                        font-weight: bold;
+                        display: inline-block;
+                        margin: 0 10px;
+                    }
+
+                    .links-uteis a:hover {
+                        text-decoration: underline;
+                    }
+                </style>    
                 </head>
                 <body>
                     <h1> Lista de produtos</h1>
@@ -88,12 +182,12 @@ app.get("/listar", function(req,res){
                         <td>${row.quantidade}</td>
                         <td>${row.preco}</td>
                         <td><a href="/deletar/${row.id}">Deletar</a></td>
-                        <td><a href="/atualizar-form">Alterar</a></td>
+                        <td><a href="/atualizar-form?id=${row.id}">Alterar</a></td>
 
                         </tr>`).join('')}
                 </table>
                 <br><br>
-                        <a href="/">Cadastrar novo produto</a>
+                        <a href="/">Inicio</a> 
                         <a href="/pesquisar">Pesquisar produto pelo código: </a>
                 </body>
 
@@ -161,4 +255,45 @@ app.post("/atualizar/:id",(req,res) => {
 
 app.get("/atualizar-form", function(req, res) {
     res.sendFile(__dirname + "/atualizarProduto.html");
+});
+
+
+app.get("/deletar-form", function(req, res){
+    res.sendFile(__dirname + "/deletarProduto.html");
+});
+
+
+app.post("/deletarProduto", function(req, res){
+    const id = req.body.id;
+    const deleteProduto = "DELETE FROM produtos WHERE id = ?";
+
+    connection.query(deleteProduto, [id], function(err, result){
+        if(err){
+            console.error("Erro ao excluir produto", err);
+            res.status(500).send("Erro ao excluir o produto!");
+        } else {
+            if(result.affectedRows === 0){
+                res.send("Nenhum produto encontrado com este código para excluir. <br><br> <a href='/deletar-form'>Tentar novamente</a>");
+            } else {
+                console.log("Produto excluído com sucesso via formulário!");
+                res.redirect("/listar");
+            }
+        }
+    });
+});
+
+
+app.get("/deletar/:id", function(req, res){
+    const idDoProduto = req.params.id;
+    const deleteProduto = "DELETE FROM produtos WHERE id = ?";
+
+    connection.query(deleteProduto, [idDoProduto], function(err, rows){
+        if(!err){
+            console.log("Produto excluído com sucesso via tabela!");
+            res.redirect("/listar");
+        } else {
+            console.error("Erro ao excluir produto", err);
+            res.status(500).send("Erro ao excluir produto!");
+        }
+    });
 });

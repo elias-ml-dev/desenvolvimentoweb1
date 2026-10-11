@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Produto</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+       
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input[type="number"]:focus {
+            border-color: #e74c3c;
+            outline: none;
+        }
+
+        
+        button[type="submit"] {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #c0392b;
+        }
+
+       
+        .links-uteis {
+            margin-top: 20px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .links-uteis a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .links-uteis a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Excluir Produto por Código</h1>
+    
+    <form action="/deletarProduto" method="POST">
+        <label for="id">Informe o código (ID) do produto:</label><br><br>
+        <input type="number" id="id" name="id" required><br><br>
+        
+        <button type="submit">Excluir produto</button>
+    </form>
+    
+    <br><br>
+    <a href="/">Inicio</a> 
+    <a href="/listar">Ver lista de produtos</a>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const idUrl = urlParams.get('id');
+    
+    if (idUrl) {
+        document.getElementById("id").value = idUrl;
+    }
+</script>
+</body>
+</html>
