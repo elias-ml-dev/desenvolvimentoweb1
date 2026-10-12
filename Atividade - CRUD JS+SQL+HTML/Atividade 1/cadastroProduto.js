@@ -55,6 +55,16 @@ app.post("/adicionar", function(req,res){
     const quantidade = req.body.quantidade;
     const preco = req.body.preco;
 
+    if(!nome || req.body.quantidade === "" || req.body.preco === ""){
+        return res.send("Erro: Existem dados faltando! Preencha todos os campos. <br><br> <a href='/adicionar'>Voltar</a> ");
+    }
+    if(quantidade < 0){
+        return res.send("Erro: Quantidade inválida! Não é permitido cadastrar uma quantidade negativa. <br><br> <a href='/adicionar'>Voltar</a>");
+    }
+    if(preco <= 0){
+        return res.send("Erro: Preço inválido! O preço não pode ser igual ou menor que zero. <br><br> <a href='/adicionar'>Voltar</a>");
+    }
+
     const values = [nome, quantidade, preco];
     const insert = "INSERT INTO produtos (nome, quantidade, preco) VALUES(?,?,?)";
     connection.query(insert,values,function(err,result){
@@ -66,7 +76,7 @@ app.post("/adicionar", function(req,res){
             res.redirect("/listar");
         }
     });
-})
+});
 
 app.get("/listar", function(req,res){
     const selectAll = "SELECT * FROM produtos";
@@ -246,7 +256,12 @@ app.post("/atualizar/:id",(req,res) => {
 
         if (result.affectedRows > 0) {
             console.log("Dados atualizados com sucesso!");
-            return res.send("Produto atualizado com sucesso!");
+            return res.send(`
+                <script>
+                    alert("Produto atualizado com sucesso!");
+                    window.location.href = "/listar";
+                </script>
+            `);
         } else {
             return res.status(404).send("Produto não encontrado!");
         }
