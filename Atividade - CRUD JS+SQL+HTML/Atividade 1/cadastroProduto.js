@@ -240,6 +240,10 @@ app.post("/pesquisar", function(req,res){
 });
 
 
+app.get("/atualizar-form", function(req, res) {
+    res.sendFile(__dirname + "/atualizarProduto.html");
+});
+
 app.post("/atualizar/:id",(req,res) => {
     const update = "UPDATE produtos SET nome = ?, quantidade = ?, preco = ? WHERE id = ?";
 
@@ -266,10 +270,6 @@ app.post("/atualizar/:id",(req,res) => {
             return res.status(404).send("Produto não encontrado!");
         }
     });
-});
-
-app.get("/atualizar-form", function(req, res) {
-    res.sendFile(__dirname + "/atualizarProduto.html");
 });
 
 
