@@ -103,7 +103,7 @@ app.get("/listar", function(req, res){
                         <td>${row.idade}</td>
                         <td>${row.email}</td>
                         <td><a href="/deletar/${row.id}">Deletar</a></td>
-                        <td><a href="/atualizar-form?id=${row.id}">Alterar</a></td>
+                        <td><a href="/atualizar-form/${row.id}">Alterar</a></td>
 
                         </tr>`).join('')}
                 </table>
@@ -153,7 +153,7 @@ app.post("/pesquisar", function(req, res){
 
 app.get("/atualizar-form/:id", function(req,res){
     const id = req.params.id;
-    const selectAluno= ("SELECT * FROM alunos WHERE id=?")
+    const selectAluno= "SELECT * FROM alunos WHERE id=?"
 
     connection.query(selectAluno, [id], function(err, result){
         if(!err && result.length > 0){
@@ -172,19 +172,19 @@ app.get("/atualizar-form/:id", function(req,res){
 
     <form action="/atualizar/${id}" method="POST">
         <label for="nome"> Nome do Aluno</label> <br>
-        <input type="text" id="nome" name="nome" value=${aluno.nome}required> <br>
+        <input type="text" id="nome" name="nome" value="${aluno.nome}"required> <br>
         <br>
-        <label for="quantidade"> Quantidade</label> <br>
-        <input type="text" id="turma" name="turma" value=${aluno.turma}required> <br>
+        <label for="quantidade"> Turma</label> <br>
+        <input type="text" id="turma" name="turma" value="${aluno.turma}"required> <br>
         <br>
-        <label for="preco"> Preço</label> <br>
-        <input type="number" id="idade" name="idade" value=${aluno.idade} required> <br>
+        <label for="preco"> Idade</label> <br>
+        <input type="number" id="idade" name="idade" value="${aluno.idade}" required> <br>
         <br>
         <label for="email">Email</label> <br>
-        <input type="email" id="email" name="email" value=${aluno.email} required> <br><br>
+        <input type="email" id="email" name="email" value="${aluno.email}" required> <br><br>
         <input type="submit">
         <br>
-        <a href="/listar">Listar produtos</a>
+        <a href="/listar">Listar alunos</a>
 
     </form>
 </body>
@@ -209,7 +209,7 @@ app.post("/atualizar/:id", (req,res) => {
     function(err, result){
         if(!err){
             console.log("Dados Atualizados com Sucesso!");
-            res.send("Dados Atualizados");
+            res.redirect("/listar");
         } else {
             console.log("Erro ao atualizar ", err);
             res.status(500).send("Erro ao atualizar!");
