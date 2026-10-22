@@ -82,3 +82,81 @@ app.get("/listar", function(req,res){
         }
     });
 });
+
+app.get("/deletar/:id", function(req,res){
+    const idDoProduto = req.params.id;
+    const deleteProduto = "DELETE FROM produtos WHERE id=?";
+
+    connection.query(deleteProduto,[idDoProduto],(err, rows) => {
+        if(!err){
+            console.log("Produto excluído com sucesso!");
+            res.redirect("/listar");
+        }else{
+            console.error("Erro ao excluir produto", err);
+            res.status(500).send("Erro ao excluir produto!");
+        }
+    });
+});
+
+app.post("/atualizar/:id", (req, res) => {
+    const update = "UPDATE produtos SET nome = ?, preco = ?, quantidade = ? WHERE id = ?";
+    const nome = req.body.nome;
+    const preco = req. body.preco;
+    const quantidade = req.body.quantidade;
+    const id = req.params.id;
+
+    connection.query(update,[nome, preco, quantidade, id],  function(err, result){
+        if(!err){
+            console.log("Dados atualizados com sucesso!");
+            res.send("Dados atualizados");
+            res.redirect("/listar");
+        }else{
+            console.log("Erro ao atualizar ", err);
+            res.status(500).send("Erro ao atualizar!");
+            res.redirect("/listar");
+        }
+    });
+});
+
+app.get("/atualizar-form/:id", function(req, res){
+    const id = req.params.id;
+    const selectProduto = "SELECT * FROM produtos WHERE id=?";
+
+    connection.query(selectProduto,[id],function(err,result){
+        if(!err && result.length > 0){
+            const produto = result[0];
+
+            res.send(`
+            <!DOCTYPE html>
+            <html lang="pt-br>
+            <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Atualizar Cadastro de Produtos</title>
+            </head>
+            <body>
+                <h1>Atualizar Cadastyro de Produtos</h1>
+                
+                <form action="/atualizar/${id}" method="POST">
+                    <label for="nome"> Nome do Produto</label> <br>
+                    <input type="text" id="nome" name="nome" required value=${produto.nome}> <br> 
+                    <br>
+                    <label for="quantidade"> Quantidade </label> <br>
+                    <input type="number" id="quantidade" name="quantidade" required value=${produto.quantidade} > <br>
+                    <br>
+                    <label for="preco"> Preço </label> <br>
+                    <input type="number" id="preco" name="preco" required value=${produto.preco} > <br>
+                    <br>
+                    <input type="submit">
+                    <br>
+                    <a href="/listar">Listar produtos</a>
+                </form>
+            </body>
+            </html>
+            `)}else{
+                console.log("Erro ao obterdados do produto", err);
+                res.status(500).send("Erro ao obter dados do produto");
+        }
+    });
+});
+

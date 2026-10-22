@@ -43,8 +43,11 @@ function consultarBanco(){
 consultarBanco();
 
 
-
 app.get("/", function(req,res){
+    res.sendFile(__dirname + "/index.html");
+});
+
+app.get("/adicionar", function(req,res){
     res.sendFile(__dirname + "/cadastroAluno.html");
 });
 
@@ -133,16 +136,17 @@ app.post("/pesquisar", function(req, res){
             console.error("Erro ao encontrar aluno", err);
             res.status(500).send("Erro no servidor. ");
         }else if(result.length === 0){
-            res.send("Aluno não encontrado. ");
+            res.send(`<h2>Aluno não encontrado</h2>
+                     <a href="/">Voltar</a>`);
         }else{
             const aluno = result[0];
             res.send(`
                 <h2>Dados do Aluno</h2>
                 <p><strong>ID:</strong> ${aluno.id}</p>
                 <p><strong>Nome:</strong> ${aluno.nome}</p>
-                <p><strong>Quantidade:</strong> ${aluno.turma}</p>
-                <p><strong>Preço:</strong> ${aluno.idade}</p>
-                <p><strong>Preço:</strong> ${aluno.email}</p>
+                <p><strong>Turma:</strong> ${aluno.turma}</p>
+                <p><strong>Idade:</strong> ${aluno.idade}</p>
+                <p><strong>Email:</strong> ${aluno.email}</p>
                 <br>
                 <a href="/">Voltar</a>
             `);
@@ -209,7 +213,8 @@ app.post("/atualizar/:id", (req,res) => {
     function(err, result){
         if(!err){
             console.log("Dados Atualizados com Sucesso!");
-            res.redirect("/listar");
+            res.send(`<h2>Dados atualizados com sucesso! </h2>
+                          <a href="/">Inicio</a>`);;
         } else {
             console.log("Erro ao atualizar ", err);
             res.status(500).send("Erro ao atualizar!");
