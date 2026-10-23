@@ -154,7 +154,7 @@ app.post("/pesquisar", function(req, res){
     });
 });
 
-
+// atualizar no listar
 app.get("/atualizar-form/:id", function(req,res){
     const id = req.params.id;
     const selectAluno= "SELECT * FROM alunos WHERE id=?"
@@ -214,7 +214,7 @@ app.post("/atualizar/:id", (req,res) => {
         if(!err){
             console.log("Dados Atualizados com Sucesso!");
             res.send(`<h2>Dados atualizados com sucesso! </h2>
-                          <a href="/">Inicio</a>`);;
+                          <a href="/">Inicio</a>`);
         } else {
             console.log("Erro ao atualizar ", err);
             res.status(500).send("Erro ao atualizar!");
@@ -222,13 +222,45 @@ app.post("/atualizar/:id", (req,res) => {
     });
 });
 
+// atualizando pelo menu inicial
+app.get("/atualizar", function(req, res){
+    res.sendFile(__dirname + "/atualizar.html");
+});
+
+app.post("/atualizar", (req,res) => {
+
+    const update = "UPDATE alunos SET nome = ?, turma = ?, idade = ?, email = ? WHERE id =?";
+    const nome = req.body.nome;    
+    const turma = req.body.turma;
+    const idade = req.body.idade;
+    const email = req.body.email;
+    const id = req.body.id;
+    
+    connection.query(update,[nome,turma, idade, email,id], function(err, result){
+        if (err) {
+        console.error("Erro ao atualizar:", err);
+        return res.status(500).send("Erro ao atualizar!");
+        }
+
+        if (result.affectedRows > 0) {
+            console.log("Dados atualizados com sucesso!");
+           res.send(`<h2>Dados atualizados com sucesso! </h2>
+                          <a href="/">Inicio</a>`);
+        } else {
+            return res.status(404).send(`<h2>Aluno não encontrado </h2>
+                                          <a href="/atualizar">Voltar</a>`);
+        }
+    });
+});
+
+// deletar no listar
 app.get("/deletar/:id", function(req,res){
     const idDoAluno = req.params.id;
     const deleteAluno = "DELETE FROM alunos WHERE id = ?";
 
     connection.query(deleteAluno, [idDoAluno], function(err, rows){
         if(!err){
-            console.log("Aluno excluído com sucesso via tabela!");
+            console.log("Aluno excluído com sucesso!");
             res.redirect("/listar");
         } else {
             console.error("Erro ao excluir aluno", err);
@@ -237,3 +269,64 @@ app.get("/deletar/:id", function(req,res){
     });
 });
 
+// deletar aluno pelo menu inicial
+app.get("/deletar", function(req, res){
+    res.sendFile(__dirname + "/deletar.html");
+});
+
+app.post("/deletar", function(req, res){
+    
+    const id = req.body.id;
+    const sql = "SELECT * FROM alunos WHERE id = ?";
+
+    connection.query(sql,[id],function(err,result){
+        if(err){
+            console.error("Erro ao encontrar aluno", err);
+            res.status(500).send("Erro no servidor. ");
+        }else if(result.length === 0){
+            res.send(`<h2>Aluno não encontrado</h2>
+                     <a href="/">Voltar</a>`);
+        }else{
+            const aluno = result[0];
+            res.send(`
+                <h2>Dados do Aluno</h2>
+                <p><strong>ID:</strong> ${aluno.id}</p>
+                <p><strong>Nome:</strong> ${aluno.nome}</p>
+                <p><strong>Turma:</strong> ${aluno.turma}</p>
+                <p><strong>Idade:</strong> ${aluno.idade}</p>
+                <p><strong>Email:</strong> ${aluno.email}</p>
+                <br>
+                <h2>Deseja realmente excluir este aluno? <h2>
+                <form action="/confirmaDeletar" method="POST">
+                <input type="hidden" name="id" value="${aluno.id}">
+                <button type="submit">Confirmar exclusão</button>
+                <button type="submit"> <a href="/">Cancelar</a></button>
+                </form>
+            `);
+        }
+    });
+});
+
+app.post("/confirmaDeletar", function(req,res){
+    const id = req.body.id;
+    const deleteAluno = "DELETE FROM alunos WHERE id = ?";
+
+    connection.query(deleteAluno, [id], function(err, result){
+        if(err){
+            console.error("Erro ao excluir aluno", err);
+            res.status(500).send("Erro ao excluir aluno!");
+        }else if(result.length === 0){
+            res.send(`
+                <h2>Aluno não encontrado para a exclusão.</h2>
+                <a href="/">Voltar ao início</a>
+            `);
+        }else{
+            console.log("Aluno excluído com sucesso!");
+            res.send(`
+                <h2>Aluno excluído com sucesso!"</h2>
+                <a href="/">Voltar ao inicio</a>
+             `);
+        }
+            
+    });
+});
