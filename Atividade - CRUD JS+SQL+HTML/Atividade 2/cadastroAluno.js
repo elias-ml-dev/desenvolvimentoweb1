@@ -283,7 +283,7 @@ app.post("/deletar", function(req, res){
         if(err){
             console.error("Erro ao encontrar aluno", err);
             res.status(500).send("Erro no servidor. ");
-        }else if(result.length === 0){
+        }else if(result.affectedRows === 0){
             res.send(`<h2>Aluno não encontrado</h2>
                      <a href="/">Voltar</a>`);
         }else{
@@ -300,7 +300,7 @@ app.post("/deletar", function(req, res){
                 <form action="/confirmaDeletar" method="POST">
                 <input type="hidden" name="id" value="${aluno.id}">
                 <button type="submit">Confirmar exclusão</button>
-                <button type="submit"> <a href="/">Cancelar</a></button>
+                <a href="/">Cancelar</a>
                 </form>
             `);
         }
@@ -325,7 +325,7 @@ app.post("/confirmaDeletar", function(req,res){
             res.send(`
                 <h2>Aluno excluído com sucesso!"</h2>
                 <a href="/">Voltar ao inicio</a>
-             `);
+            `);
         }
             
     });

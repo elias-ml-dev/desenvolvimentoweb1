@@ -31,20 +31,5 @@
     </form>
     <a href="/">Inicio</a>
 
-<script>
-    const form = document.getElementById("formAtualizar");
-    const campoId = document.getElementById("id");
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const idUrl = urlParams.get('id');
-
-    if (idUrl) {
-        campoId.value = idUrl; 
-    }
-
-    form.addEventListener("submit", function() {
-        form.action = "/atualizar/" + campoId.value;
-    });
-</script>
 </body>
 </html>
